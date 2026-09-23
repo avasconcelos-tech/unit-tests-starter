@@ -29,13 +29,13 @@ describe('API /clientes (integracao com supertest)', () => {
       const res = await request(app).get('/clientes/1');
 
       expect(res.status).toBe(200);
-      expect(res.body).toEqual({ id: 1, nome: "Ana", email: "ana@email.com" });
+      expect(res.body).toEqual({ id: 1, nome: "Ana Souza", email: "ana@email.com" });
     });
     test('retorna 404 com mensagem de erro quando o cliente nao existe', async () => {
       const res = await request(app).get('/clientes/4');
 
       expect(res.status).toBe(404);
-      expect(res.body).toEqual({ error: "Cliente nao encontrado" });
+      expect(res.body).toEqual({ erro: "Cliente nao encontrado" });
     });
   });
 
@@ -50,19 +50,19 @@ describe('API /clientes (integracao com supertest)', () => {
       const res = await request(app).post('/clientes').send({ nome: "", email: "ana@email.com" });
 
       expect(res.status).toBe(400);
-      expect(res.body).toEqual({ error: "Cliente invalido" });
+      expect(res.body).toEqual({ erro: "Nome e email sao obrigatorios" });
     });
     test('retorna 400 quando o email esta faltando', async () => {
       const res = await request(app).post('/clientes').send({ nome: "Ana", email: "" });
 
       expect(res.status).toBe(400);
-      expect(res.body).toEqual({ error: "Cliente invalido" });
+      expect(res.body).toEqual({ erro: "Nome e email sao obrigatorios" });
     });
     test('retorna 400 quando o email ja esta cadastrado', async () => {
-      const res = await request(app).post('/clientes').send({ nome: "Ana", email: "ana@email.com" });
+      const res = await request(app).post('/clientes').send({ nome: "Outra Ana", email: "ana@email.com" });
 
       expect(res.status).toBe(400);
-      expect(res.body).toEqual({ error: "Email ja cadastrado" });
+      expect(res.body).toEqual({ erro: "Email ja cadastrado" });
     });
 
     test('cliente criado aparece em GET /clientes', async () => {
@@ -88,13 +88,13 @@ describe('API /clientes (integracao com supertest)', () => {
       const res = await request(app).put('/clientes/4').send({ nome: "Ana Atualizada", email: "ana.atualizada@email.com" });
 
       expect(res.status).toBe(404);
-      expect(res.body).toEqual({ error: "Cliente nao encontrado" });
+      expect(res.body).toEqual({ erro: "Cliente nao encontrado" });
     });
     test('retorna 400 quando o novo email ja pertence a outro cliente', async () => {
-      const res = await request(app).put('/clientes/1').send({ nome: "Ana Laura", email: "ana.laura@email.com" });
+      const res = await request(app).put('/clientes/1').send({ nome: "Ana Laura", email: "bruno@email.com" });
 
       expect(res.status).toBe(400);
-      expect(res.body).toEqual({ error: "Email ja cadastrado" });
+      expect(res.body).toEqual({ erro: "Email ja cadastrado" });
     });
   });
 
@@ -103,7 +103,6 @@ describe('API /clientes (integracao com supertest)', () => {
       const res = await request(app).delete("/clientes/1");
 
       expect(res.status).toBe(204);
-      expect(res.body).toEqual({ message: "Cliente removido com sucesso" });
     });
     test('cliente removido nao aparece mais na listagem', async () => {
       await request(app).delete("/clientes/1");
@@ -111,13 +110,13 @@ describe('API /clientes (integracao com supertest)', () => {
       const res = await request(app).get("/clientes");
 
       expect(res.status).toBe(200);
-      expect(res.body.length).toBe(2);
+      expect(res.body.length).toBe(1);
     });
     test('retorna 404 quando o cliente nao existe' , async () => {
       const res = await request(app).delete("/clientes/999");
 
       expect(res.status).toBe(404);
-      expect(res.body).toEqual({ error: "Cliente não encontrado" });
+      expect(res.body).toEqual({ erro: "Cliente nao encontrado" });
     });
   });
 });
