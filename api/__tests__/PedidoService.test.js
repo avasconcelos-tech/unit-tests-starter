@@ -91,8 +91,11 @@ describe("PedidoService (unitario com mocks)", () => {
         status: "pendente",
         total: 0,
       };
+      mockRepository.create.mockImplementation(() => {
+        throw new Error("Cliente e obrigatorio");
+      });
 
-      expect(() => service.criar(pedidos)).toThrow("Cliente invalido");
+      expect(() => service.criar(pedidos)).toThrow("Cliente e obrigatorio");
     });
     test("propaga o erro quando a lista de itens estiver vazia", () => {
       const pedidos = {
@@ -102,8 +105,11 @@ describe("PedidoService (unitario com mocks)", () => {
         status: "pendente",
         total: 0,
       };
+      mockRepository.create.mockImplementation(() => {
+        throw new Error("Pedido deve ter ao menos um item");
+      });
 
-      expect(() => service.criar(pedidos)).toThrow("Itens do pedido invalidos");
+      expect(() => service.criar(pedidos)).toThrow("Pedido deve ter ao menos um item");
     });
     test("propaga o erro quando algum item tiver preco ou quantidade invalidos", () => {
       const pedidos = {
@@ -111,7 +117,7 @@ describe("PedidoService (unitario com mocks)", () => {
         cliente: "Ana Souza",
         itens: [
           {
-            produto: "Produto 1",
+            nome: "Produto 1",
             preco: -10,
             quantidade: 2,
           },
@@ -119,8 +125,13 @@ describe("PedidoService (unitario com mocks)", () => {
         status: "pendente",
         total: 0,
       };
+      mockRepository.create.mockImplementation(() => {
+        throw new Error("Itens devem ter nome, preco e quantidade validos");
+      });
 
-      expect(() => service.criar(pedidos)).toThrow("Itens do pedido invalidos");
+      expect(() => service.criar(pedidos)).toThrow(
+        "Itens devem ter nome, preco e quantidade validos",
+      );
     });
   });
 
@@ -155,6 +166,9 @@ describe("PedidoService (unitario com mocks)", () => {
         total: 0,
       };
       mockRepository.findById.mockReturnValue(pedidos);
+      mockRepository.updateStatus.mockImplementation(() => {
+        throw new Error("Status invalido");
+      });
 
       expect(() => service.atualizarStatus(1, "status invalido")).toThrow("Status invalido");
     });
@@ -167,8 +181,13 @@ describe("PedidoService (unitario com mocks)", () => {
         total: 0,
       };
       mockRepository.findById.mockReturnValue(pedidos);
+      mockRepository.updateStatus.mockImplementation(() => {
+        throw new Error("Pedido cancelado nao pode ser alterado");
+      });
 
-      expect(() => service.atualizarStatus(1, "em andamento")).toThrow("Pedido ja cancelado");
+      expect(() => service.atualizarStatus(1, "pago")).toThrow(
+        "Pedido cancelado nao pode ser alterado",
+      );
     });
   });
 
@@ -181,16 +200,17 @@ describe("PedidoService (unitario com mocks)", () => {
         status: "pendente",
         total: 0,
       };
-      mockRepository.findById.mockReturnValue(pedidos);
+      mockRepository.delete.mockReturnValue(true);
 
       service.remover(1);
 
-      expect(mockRepository.findById).toHaveBeenCalledWith(1);
+      expect(mockRepository.delete).toHaveBeenCalledWith(1);
     });
     test("lanca erro 'Pedido nao encontrado' quando o repository retorna false", () => {
-      mockRepository.findById.mockReturnValue(null);
+      mockRepository.delete.mockReturnValue(false);
 
       expect(() => service.remover(6)).toThrow("Pedido nao encontrado");
+      expect(mockRepository.delete).toHaveBeenCalledWith(6);
     });
   });
 });
