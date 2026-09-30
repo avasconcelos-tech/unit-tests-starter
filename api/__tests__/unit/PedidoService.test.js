@@ -44,7 +44,6 @@ describe("PedidoService (unitario com mocks)", () => {
   });
 
   describe("buscarPorId", () => {
-<<<<<<< HEAD:api/__tests__/PedidoService.test.js
     test("repassa o id ao repository e retorna o pedido encontrado", () => {
       const pedidos = {
         id: 1,
@@ -213,42 +212,5 @@ describe("PedidoService (unitario com mocks)", () => {
       expect(() => service.remover(6)).toThrow("Pedido nao encontrado");
       expect(mockRepository.delete).toHaveBeenCalledWith(6);
     });
-=======
-    test.todo("repassa o id ao repository e retorna o pedido encontrado");
-    test.todo(
-      "lanca erro 'Pedido nao encontrado' quando o repository retorna null",
-    );
-  });
-
-  describe("criar", () => {
-    test.todo(
-      "repassa os dados ao repository e retorna o pedido criado com o total calculado",
-    );
-    test.todo("propaga o erro quando o cliente estiver faltando");
-    test.todo("propaga o erro quando a lista de itens estiver vazia");
-    test.todo(
-      "propaga o erro quando algum item tiver preco ou quantidade invalidos",
-    );
-  });
-
-  describe("atualizarStatus", () => {
-    test.todo(
-      "chama repository.findById e repository.updateStatus quando o pedido existe",
-    );
-    test.todo(
-      "lanca erro 'Pedido nao encontrado' sem chamar repository.updateStatus quando o pedido nao existe",
-    );
-    test.todo("propaga o erro quando o novo status for invalido");
-    test.todo("propaga o erro quando o pedido ja estiver cancelado");
-  });
-
-  describe("remover", () => {
-    test.todo(
-      "chama repository.delete com o id correto quando o pedido existe",
-    );
-    test.todo(
-      "lanca erro 'Pedido nao encontrado' quando o repository retorna false",
-    );
->>>>>>> 89b994eaa8ff6cdadda91e4ededefcbc83b682c5:api/__tests__/unit/PedidoService.test.js
   });
 });
