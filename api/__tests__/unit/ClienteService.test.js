@@ -1,4 +1,4 @@
-const ClienteService = require("../services/ClienteService");
+const ClienteService = require("../../services/ClienteService");
 
 // Teste unitario: o service e testado em isolamento total.
 // O repository e substituido por um mock (jest.fn()), assim testamos so a
@@ -37,6 +37,7 @@ describe("ClienteService (unitario com mocks)", () => {
   });
 
   describe("buscarPorId", () => {
+<<<<<<< HEAD:api/__tests__/ClienteService.test.js
     test("repassa o id ao repository e retorna o cliente encontrado", () => {
       const cliente = { id: 1, nome: "Ana", email: "ana@email.com" };
       mockRepository.findById.mockReturnValue(cliente);
@@ -53,6 +54,12 @@ describe("ClienteService (unitario com mocks)", () => {
       expect(() => service.buscarPorId(999)).toThrow("Cliente nao encontrado");
       expect(mockRepository.findById).toHaveBeenCalledWith(999);
     });
+=======
+    test.todo("repassa o id ao repository e retorna o cliente encontrado");
+    test.todo(
+      "lanca erro 'Cliente nao encontrado' quando o repository retorna null",
+    );
+>>>>>>> 89b994eaa8ff6cdadda91e4ededefcbc83b682c5:api/__tests__/unit/ClienteService.test.js
   });
 
   describe("criar", () => {
@@ -86,6 +93,7 @@ describe("ClienteService (unitario com mocks)", () => {
   });
 
   describe("atualizar", () => {
+<<<<<<< HEAD:api/__tests__/ClienteService.test.js
     test("chama repository.findById e repository.update quando o cliente existe", () => {
       const clienteExistente = { id: 1, nome: "Ana", email: "ana@email.com" };
       const clienteAtualizado = {
@@ -152,5 +160,23 @@ describe("ClienteService (unitario com mocks)", () => {
       expect(() => service.remover(3)).toThrow("Cliente nao encontrado");
       expect(mockRepository.delete).toHaveBeenCalledWith(3);
     });
+=======
+    test.todo(
+      "chama repository.findById e repository.update quando o cliente existe",
+    );
+    test.todo(
+      "lanca erro 'Cliente nao encontrado' sem chamar repository.update quando o cliente nao existe",
+    );
+    test.todo("propaga o erro quando o novo email ja pertence a outro cliente");
+  });
+
+  describe("remover", () => {
+    test.todo(
+      "chama repository.delete com o id correto quando o cliente existe",
+    );
+    test.todo(
+      "lanca erro 'Cliente nao encontrado' quando o repository retorna false",
+    );
+>>>>>>> 89b994eaa8ff6cdadda91e4ededefcbc83b682c5:api/__tests__/unit/ClienteService.test.js
   });
 });
