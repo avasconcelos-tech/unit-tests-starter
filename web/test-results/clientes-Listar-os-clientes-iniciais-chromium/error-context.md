@@ -6,22 +6,22 @@
 
 # Test info
 
-- Name: clientes.spec.js >> mostra erro ao cadastrar sem preenchimento
-- Location: e2e\clientes.spec.js:25:1
+- Name: clientes.spec.js >> Listar os clientes iniciais
+- Location: e2e\clientes.spec.js:9:1
 
 # Error details
 
 ```
 Error: expect(locator).toBeVisible() failed
 
-Locator: getByText('Nome e email sao obrigatorios')
+Locator: getByRole('heading', { name: 'Ana Souza' })
 Expected: visible
 Timeout: 5000ms
 Error: element(s) not found
 
 Call log:
-  - Expect "toBeVisible" getByText('Nome e email sao obrigatorios') with timeout 5000ms
-  - waiting for getByText('Nome e email sao obrigatorios')
+  - Expect "toBeVisible" getByRole('heading', { name: 'Ana Souza' }) with timeout 5000ms
+  - waiting for getByRole('heading', { name: 'Ana Souza' })
 
 ```
 
@@ -36,7 +36,6 @@ Call log:
   - textbox "Nome"
   - spinbutton "Preco"
   - button "Cadastrar"
-  - paragraph: Nome e preco sao obrigatorios
   - table:
     - rowgroup:
       - row "Nome Preco":
@@ -73,7 +72,8 @@ Call log:
   7  | });
   8  | // Atividade C1: Listar os clientes iniciais
   9  | test("Listar os clientes iniciais", async ({ page }) => {
-  10 |   await expect(page.getByRole("heading", { name: "Ana Souza" })).toBeVisible();
+> 10 |   await expect(page.getByRole("heading", { name: "Ana Souza" })).toBeVisible();
+     |                                                                  ^ Error: expect(locator).toBeVisible() failed
   11 |   await expect(page.getByRole("row")).toHaveCount(4);
   12 |   await expect(page.getByRole("cell", { name: "Bruno Lima" })).toBeVisible();
   13 | });
@@ -90,8 +90,7 @@ Call log:
   24 | // Atividade C3: Validar campos obrigatórios
   25 | test("mostra erro ao cadastrar sem preenchimento", async ({ page }) => {
   26 |   await page.getByRole("button", { name: "Cadastrar" }).click();
-> 27 |   await expect(page.getByText("Nome e email sao obrigatorios")).toBeVisible();
-     |                                                                 ^ Error: expect(locator).toBeVisible() failed
+  27 |   await expect(page.getByText("Nome e email sao obrigatorios")).toBeVisible();
   28 | });
   29 | 
   30 | // Atividade C4: Impedir email duplicado
